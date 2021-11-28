@@ -1,0 +1,23 @@
+<?php 
+
+function textFilter($text){
+    $text = trim($text);
+    $text = htmlentities($text,ENT_QUOTES);
+    $text = stripcslashes($text);
+    return $text;
+}
+
+function short($str,$length="50"){
+    return substr($str,0,$length)."...";
+}
+
+echo short(strip_tags(html_entity_decode($c['description']))); 
+
+
+trim() ----- space ဖျက်ရန်
+htmlentities() ----- html tags တေကို entities တေအဖြစ် ပြောင်းရန်
+htmlentities($text,ENT_QUOTES) ----- $text ထဲကပါလာတဲ့ quotes တေကို entities တေအဖြစ် ပြောင်းရန်
+stripcslashes() ----- slashes တေကို ဖျက်ရန်
+strip_tags() ----- html tags တေကို ဖျက်ရန်
+html_entity_decode ----- entities တေကို html tags တေအဖြစ် ပြန်ပြောင်းရန်
+substr() ----- string တေကို လိုသလောက် length ဖြတ်ရန်
