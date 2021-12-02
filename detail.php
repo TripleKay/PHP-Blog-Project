@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
 <?php require_once "front_panel/head.php"; ?>
 <title>Home</title>
 
@@ -7,6 +7,13 @@
     $id = $_GET['id'];
     $current = post($id);
     $currentCat = $current['category_id'];
+
+    if(isset($_SESSION['user']['id'])){
+        $user_id = $_SESSION['user']['id'];
+    }else{
+        $user_id = 0;
+    }
+    viewerRecord($user_id,$id,$_SERVER['HTTP_USER_AGENT']);
  ?>
 <div class="container">
     <div class="row">

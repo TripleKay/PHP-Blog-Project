@@ -21,3 +21,11 @@ stripcslashes() ----- slashes တေကို ဖျက်ရန်
 strip_tags() ----- html tags တေကို ဖျက်ရန်
 html_entity_decode ----- entities တေကို html tags တေအဖြစ် ပြန်ပြောင်းရန်
 substr() ----- string တေကို လိုသလောက် length ဖြတ်ရန်
+
+
+to do
+
+ads manager
+vister_list
+user_list_controls
+category_list_controls

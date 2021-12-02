@@ -16,8 +16,24 @@
             <li class="menu-item">
                 <a href="<?php echo $url; ?>/dashboard.php" class="menu-item-link ">
                     <span>
-                        <i class="feather-home"></i>
+                        <i class="feather-home mr-2"></i>
                         Dashboard
+                    </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="<?php echo $url; ?>/index.php" class="menu-item-link ">
+                    <span>
+                        <i class="feather-arrow-right mr-2"></i>
+                        Go To News
+                    </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="<?php echo $url; ?>/wallet.php" class="menu-item-link ">
+                    <span>
+                        <i class="feather-dollar-sign mr-2"></i>
+                        Wallet
                     </span>
                 </a>
             </li>
@@ -31,7 +47,7 @@
             <li class="menu-item">
                 <a href="<?php echo $url; ?>/post_add.php" class="menu-item-link">
                     <span>
-                        <i class="feather-plus-circle"></i>
+                        <i class="feather-plus-circle mr-2"></i>
                         Add Post
                     </span>
                 </a>
@@ -40,7 +56,7 @@
             <li class="menu-item">
                 <a href="<?php echo $url; ?>/post_list.php" class="menu-item-link">
                             <span>
-                                <i class="feather-list"></i>
+                                <i class="feather-list mr-2"></i>
                                 Post List
                             </span>
                     <span class="badge badge-pill bg-white shadow-sm text-primary p-1">
@@ -74,7 +90,7 @@
                         User Manager
                     </span>
                     <span class="badge badge-pill bg-white shadow-sm text-primary p-1">
-                    <?php echo countTotal('categories'); ?>
+                    <?php echo countTotal('users'); ?>
                     </span>
                 </a>
             </li>

@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
 <?php require_once "front_panel/head.php"; ?>
 <title>Home</title>
 
@@ -27,10 +27,15 @@
                 </div>
                 
                 <?php 
-
-                    $orderCol = $_GET['order_by'];
-                    $orderType = strtoupper($_GET['order_type']);
-                    foreach (fPosts($orderCol,$orderType) as $p){
+                    if(isset($_GET['order_by']) && isset($_GET['order_type'])){
+                        $orderCol = $_GET['order_by'];
+                        $orderType = strtoupper($_GET['order_type']); 
+                        $posts = fPosts($orderCol,$orderType);  
+                    }else{
+                        $posts = fPosts();
+                    }
+                    
+                    foreach ($posts as $p){
 
                 ?>
                 <?php

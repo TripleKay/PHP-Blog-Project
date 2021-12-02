@@ -60,6 +60,56 @@
             </div>
         </div>
     </div>
+    <div class="col-12 col-md-4 col-lg-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="feather-users mr-2 text-primary"></i>Post Viewer
+                    </h4>
+
+                    
+                    <div class="">
+                    <a href="#" class="btn btn-outline-secondary full-screen-btn">
+                            <i class="feather-maximize-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Who</th>
+                        <th>Device</th>
+                        <th>Time</th>
+                    </tr>
+                    <tbody>
+                        <?php foreach(viewerCountByPost($id) as $v){ ?>
+                            <tr>
+                                <td class="text-nowrap text-capitalize">
+                                    <?php 
+                                        if($v['user_id']==0){
+                                            echo "Guest";
+                                        }else{
+                                            echo user($v['user_id'])['name'];
+                                        }
+                                    
+                                    
+                                    ?>
+                                </td>
+                                <td><?php echo $v['device']; ?></td>
+                                <td class="text-nowrap"><?php echo showTime($v['created_at']); ?></td>
+                                
+                            </tr>
+                        <?php } ?>
+                        
+                    </tbody>
+                </thead>
+            </table>
+            </div>
+           
+        </div>
+    </div>
 </div>
 
 <?php include "template/footer.php"; ?>

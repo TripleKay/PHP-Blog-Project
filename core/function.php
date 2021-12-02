@@ -42,8 +42,8 @@ function showTime($timestamp,$format = "d-m-y"){
     return date($format,strtotime($timestamp));
 }
 
-function countTotal($table){
-    $sql = "SELECT COUNT(id) FROM $table WHERE 1";
+function countTotal($table,$condtion = 1){
+    $sql = "SELECT COUNT(id) FROM $table WHERE $condtion";
     $total = fetch($sql);
     return $total['COUNT(id)'];
 }
@@ -98,8 +98,8 @@ function login(){
  
 }
 
-//----------------------------auth end------------------------------------
-//----------------------------user start----------------------------------
+//----------------------------auth end---------------------------------------
+//----------------------------user start-------------------------------------
 
 function user($id){
     $sql = "SELECT * FROM users WHERE id = $id";
@@ -156,8 +156,9 @@ function categoryRemovePin(){
     $sql = "UPDATE categories SET ordering = '0'";//all to 0
     return runQuery($sql);
 }
+
 //----------------------------category end----------------------------------
-//----------------------------post start----------------------------------
+//----------------------------post start------------------------------------
 
 function postAdd(){
     $title = textFilter($_POST['title']);
@@ -175,12 +176,12 @@ function post($id){
     return fetch($sql);
 }
 
-function posts(){
+function posts($limit=9999999){
     if($_SESSION['user']['role'] ==2 ){
         $current_user_id = $_SESSION['user']['id'];
-        $sql = "SELECT * FROM posts WHERE user_id = '$current_user_id'";//user
+        $sql = "SELECT * FROM posts WHERE user_id = '$current_user_id' LIMIT $limit";//user
     }else{
-        $sql = "SELECT * FROM posts";
+        $sql = "SELECT * FROM posts LIMIT $limit";
     }
     return fetchAll($sql);
 }
@@ -199,8 +200,9 @@ function postUpdate(){
     return runQuery($sql);
 }
 
-//----------------------------post end----------------------------------
+//----------------------------post end-------------------------------------------
 //----------------------------front panel start----------------------------------
+
 function fCategories(){
     $sql = "SELECT * FROM categories ORDER BY ordering DESC";
     return fetchAll($sql);
@@ -226,4 +228,85 @@ function fSearchByDate($start,$end){
     return fetchAll($sql);
 }
 
-//----------------------------front panel end----------------------------------
+//----------------------------front panel end-------------------------------------
+//-----------------------------viewer count start---------------------------------
+
+function viewerRecord($user_id,$post_id,$device){
+    $sql = "INSERT INTO viewers (user_id,post_id,device) VALUES ('$user_id','$post_id','$device')";
+    runQuery($sql);
+}
+
+function viewerCountByPost($post_id){
+    $sql = "SELECT * FROM viewers WHERE post_id = $post_id";
+    return fetchAll($sql);
+}
+
+function viewerCountByUser($user_id){
+    $sql = "SELECT * FROM viewers WHERE user_id = $user_id";
+    return fetchAll($sql);
+}
+
+//----------------------------viewer count end---------------------------------
+//----------------------------ads start----------------------------------------
+
+function ads(){
+    $today = date("Y-m-d");
+    $sql = "SELECT * FROM ads WHERE start <= '$today' AND end > '$today'";
+    return fetchAll($sql);
+}
+
+//----------------------------ads end-------------------------------------------
+//----------------------------Payment start-------------------------------------------
+function payNow(){
+    $from = $_SESSION['user']['id'];
+    $to = $_POST['to_user'];
+    $amount = $_POST['amount'];
+    $description = $_POST['description'];
+
+    //from user money update (-)
+    $fromUserDetail = user($from);
+    $leftMoney = $fromUserDetail['money'] - $amount;
+    if($fromUserDetail['money'] >= $amount){
+        $sql = "UPDATE users SET money = $leftMoney WHERE id = $from";
+        mysqli_query(con(),$sql);// runQuery() ကိုသုံးရင် return ပြန်မာဖစ်တဲ့အတွက်ကြောင့် mysqli_query() ကိုဘဲ သုံးရန်
+    
+        //to user money update (+)
+        $toUserDetail = user($to);
+        $newAmount = $toUserDetail['money'] + $amount;
+        $sql = "UPDATE users SET money = $newAmount WHERE id = $to";
+        mysqli_query(con(),$sql);
+    
+        //add to transition table
+        $sql = "INSERT INTO transition (from_user,to_user,amount,description) VALUES ('$from','$to','$amount','$description')";
+        runQuery($sql);
+    }
+}
+
+function transition($id){
+    $sql = "SELECT * FROM transition WHERE id = $id";
+    return fetch($sql);
+}
+
+function transitions(){
+    $user_id = $_SESSION['user']['id'];
+    if($_SESSION['user']['role'] == 0){
+        $sql = "SELECT * FROM transition";
+    }else{
+        $sql = "SELECT * FROM transition WHERE from_user = $user_id OR to_user = $user_id";
+    }
+    return fetchAll($sql);
+}
+//----------------------------Payment end-------------------------------------------
+//----------------------------dashboard start-------------------------------------------
+
+function dashboard_posts($limit=9999999){
+    if($_SESSION['user']['role'] ==2 ){
+        $current_user_id = $_SESSION['user']['id'];
+        $sql = "SELECT * FROM posts WHERE user_id = '$current_user_id' ORDER BY id DESC LIMIT $limit";//user
+    }else{
+        $sql = "SELECT * FROM posts ORDER BY id DESC LIMIT $limit";
+    }
+    return fetchAll($sql);
+}
+
+//----------------------------dashboard end-------------------------------------------

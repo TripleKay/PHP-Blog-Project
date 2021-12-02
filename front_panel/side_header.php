@@ -40,5 +40,13 @@
                 </div>
             </nav>
         </div>
+        <div class="col-12">
+            <?php foreach(ads() as $ad){?> 
+                <a href="<?php echo $ad['link'] ?>" target="_blink">
+                    <img src="<?php echo $ad['photo']; ?>" class="w-100 mb-3" alt="">
+                </a>
+                
+            <?php } ?>
+        </div>
     </div>
 </div>

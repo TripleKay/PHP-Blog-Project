@@ -34,7 +34,7 @@
                 <hr>
 
                 
-                <table class="table table-hover table-bordered text-nowrap mt-3">
+                <table class="table table-hover table-bordered mt-3">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -42,6 +42,7 @@
                             <th>Description</th>
                             <th>Category</th>
                             <th>User</th>
+                            <th>Viewer Count</th>
                             <th>Control</th>
                             <th>Created</th>
                         </tr>
@@ -55,14 +56,15 @@
                                 <td><?php echo $c['id']; ?></td>
                                 <td><?php echo short($c['title']); ?></td>
                                 <td><?php echo short(strip_tags(html_entity_decode($c['description']))); ?></td>
-                                <td><?php echo category($c['category_id'])['title'] ; ?></td>
-                                <td><?php echo user($c['user_id'])['name'] ; ?></td>
-                                <td>
+                                <td class="text-nowrap"><?php echo category($c['category_id'])['title'] ; ?></td>
+                                <td class="text-nowrap text-capitalize"><?php echo user($c['user_id'])['name'] ; ?></td>
+                                <td><?php echo count(viewerCountByPost($c['id'])); ?></td>
+                                <td class="text-nowrap">
                                     <a href="post_detail.php?id=<?php echo $c['id']; ?>" class="btn btn-outline-info btn-sm"><i class="feather-info fa-fw"></i></a>
                                     <a href="post_delete.php?id=<?php echo $c['id']; ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure to delete?')"><i class="feather-trash-2 fa-fw"></i></a>
                                     <a href="post_edit.php?id=<?php echo $c['id']; ?>" class="btn btn-outline-warning btn-sm"><i class="feather-edit-2 fa-fw"></i></a>
                                 </td>
-                                <td><?php echo showTime($c['created_at']); ?></td>
+                                <td class="text-nowrap"><?php echo showTime($c['created_at']); ?></td>
                             </tr>
 
                         <?php 
